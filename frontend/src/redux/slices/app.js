@@ -76,16 +76,11 @@ export function CreateTask(formValues) {
       })
   }
 }
-export function GetALlTaskOfUser(formValues) {
-  console.log(formValues, "formValues");
-
+export function GetALlTaskOfUser() {
   return async (dispatch, getState) => {
     await axios
       .get(
         `/app/get-tasks`,
-        {
-          formValues,
-        },
         {
           headers: {
             "Content-Type": "application/json",

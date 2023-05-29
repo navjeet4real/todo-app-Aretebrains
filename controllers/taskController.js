@@ -46,14 +46,39 @@ const taskController = {
 
       const tasks = await Task.find({ userId });
 
+
       if (!tasks) {
         return res.status(404).json({ message: 'Task not found. Add them' });
       }
 
+      const taskPromises = tasks.map(async (item) => {
+        const userDocPromise = User.findOne(item.userId).select(
+          "firstName lastName"
+        );
+      
+        const userDoc = await userDocPromise;
+      
+        const mergedObject = {
+          task_id: item._id,
+          name: item.name,
+          createdAt: item.createdAt,
+          ...userDoc.toObject(),
+        };
+        
+        // exclude any property with null values
+        const mergedObjectWithoutNullValues = Object.fromEntries(
+          Object.entries(mergedObject).filter(([_, v]) => v !== null)
+        );
+      
+        return mergedObjectWithoutNullValues;
+      });
+      
+      const allTasks = await Promise.all(taskPromises);
+
       return res.status(200).json({
         status: "Success",
         message: "Task fetched successfully.",
-        result: tasks
+        result: allTasks
 
       });
     } catch (err) {
