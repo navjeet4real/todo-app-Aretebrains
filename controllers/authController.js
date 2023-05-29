@@ -155,6 +155,7 @@ const authController = {
 
       user.verified = true;
       user.otp = undefined;
+      user.otp_expiry_time = undefined;
 
       await user.save({ new: true, validateModifyOnly: true });
 

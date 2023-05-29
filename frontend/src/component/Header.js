@@ -1,6 +1,7 @@
 import React from "react";
-import { Link as RouterLink
- } from "react-router-dom";
+import {
+  Link as RouterLink
+} from "react-router-dom";
 import {
   Stack,
   Link,
@@ -38,31 +39,14 @@ const Header = () => {
             justifyContent="space-between"
             alignItems={"center"}
           >
-            <Link
-              component={RouterLink}
-              to="/upload"
-              color={"inherit"}
-              variant="h6"
-              fontSize={30}
-              underline="none"
-            >
-              Upload File
-            </Link>
+            Todo App
           </Stack>
           <Stack>
-            <Link
-              component={RouterLink}
-              to="/home"
-              color={"inherit"}
-              variant="h6"
-              fontSize={30}
-              underline="none"
-            >
-              Tree Structure
-            </Link>
+
+            <Typography>{user.firstName + " " + user.lastName}</Typography>
           </Stack>
           <Stack justifyContent={"row"} direction="row" spacing={2}>
-            <Typography>{user.firstName + " " + user.lastName}</Typography>
+
             <Button onClick={() => {
               dispatch(LogoutUser(user))
             }}><LogoutIcon />Logout</Button>

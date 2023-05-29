@@ -12,7 +12,7 @@ const DashboardLayout = () => {
   }
   return (
     <>
-      <Stack>
+      <Stack alignItems={"center"}>
         <Header />
         <Outlet />
       </Stack>

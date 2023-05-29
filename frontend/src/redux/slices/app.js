@@ -57,32 +57,90 @@ export function CreateTask(formValues) {
   return async (dispatch, getState) => {
     await axios
       .post(
-        "/app/create-category",
+        "/app/create-task",
         {
           ...formValues,
         },
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().auth.token}`,
           },
         }
       ).then(function (response) {
-        console.log(response);
+        dispatch(ShowSnackBar({ severity: "success", message: response.data.message }))
 
-      }).catch(function (response) {
-        console.log(response);
-
+      }).catch(function (err) {
+        console.log(err);
+        dispatch(ShowSnackBar({ severity: "error", message: err.message }))
       })
   }
 }
-
-export function GetTask(formValues) {
+export function GetALlTaskOfUser(formValues) {
   console.log(formValues, "formValues");
 
   return async (dispatch, getState) => {
     await axios
       .get(
-        `/app/get-task/?id=${formValues.id}`,
+        `/app/get-tasks`,
+        {
+          formValues,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      ).then(function (response) {
+        console.log(response, "ffffffffffffffffffffffffff");
+        dispatch(slice.actions.displayTask({
+          display: response.data.result
+        }))
+        dispatch(ShowSnackBar({ severity: "success", message: response.data.message }))
+
+      }).catch(function (err) {
+        console.log(err);
+        dispatch(ShowSnackBar({ severity: "error", message: err.message }))
+      })
+  }
+}
+
+export function EditTask(formValues) {
+  console.log(formValues, "formValues");
+
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        `/app/edit-task/${formValues.id}`,
+        {
+          formValues,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getState().auth.token}`,
+          },
+        }
+      ).then(function (response) {
+        console.log(response, "ffffffffffffffffffffffffff");
+
+        dispatch(ShowSnackBar({ severity: "success", message: response.data.message }))
+
+
+      }).catch(function (err) {
+        console.log(err);
+        dispatch(ShowSnackBar({ severity: "error", message: err.message }))
+      })
+  }
+}
+export function DeleteTask(formValues) {
+  console.log(formValues, "formValues");
+
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        `/app/delete-task/${formValues.id}`,
         {
           formValues,
         },
@@ -93,13 +151,12 @@ export function GetTask(formValues) {
         }
       ).then(function (response) {
         console.log(response, "ffffffffffffffffffffffffff");
-        dispatch(slice.actions.displayTask({
-          display: response.data.result
-        }))
 
-      }).catch(function (response) {
-        console.log(response);
+        dispatch(ShowSnackBar({ severity: "success", message: response.data.message }))
 
+      }).catch(function (err) {
+        console.log(err);
+        dispatch(ShowSnackBar({ severity: "error", message: err.message }))
       })
   }
 }
