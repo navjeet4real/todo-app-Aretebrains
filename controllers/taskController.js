@@ -93,13 +93,8 @@ const taskController = {
       let userId = user._id
       console.log(user, "user")
 
-      const { taskId } = req.params;
-      const { name } = req.body;
-
-      if (!mongoose.Types.ObjectId.isValid(taskId)) {
-        return res.status(400).json({ msg: 'Invalid task ID.' });
-      }
-
+      const { name, taskId } = req.body;
+      console.log(taskId, "jjjjjjjjjjjjjjjjjj")
       const task = await Task.findById(taskId);
 
       if (!task) {
@@ -130,11 +125,12 @@ const taskController = {
 
       const task = await Task.findById(taskId);
 
+      console.log(task, "task")
       if (!task) {
         return res.status(404).json({ message: 'Task not found.' });
       }
 
-      await task.remove();
+      await Task.deleteOne({ _id: taskId });
 
       return res.status(200).json({ message: 'Task deleted successfully.' });
     } catch (err) {

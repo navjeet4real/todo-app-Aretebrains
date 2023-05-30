@@ -106,10 +106,10 @@ export function EditTask(formValues) {
 
   return async (dispatch, getState) => {
     await axios
-      .get(
-        `/app/edit-task/${formValues.id}`,
+      .post(
+        `/app/edit-task`,
         {
-          formValues,
+          ...formValues,
         },
         {
           headers: {
@@ -134,8 +134,8 @@ export function DeleteTask(formValues) {
 
   return async (dispatch, getState) => {
     await axios
-      .get(
-        `/app/delete-task/${formValues.id}`,
+      .delete(
+        `/app/delete-task/${formValues}`,
         {
           formValues,
         },

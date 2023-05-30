@@ -6,10 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Alert, Stack, Button } from "@mui/material";
 import { RHFTextField } from "./hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { CreateTask } from '../redux/slices/app';
+import { CreateTask, EditTask } from '../redux/slices/app';
 
 const TodoForm
-  = () => {
+  = ({ isEdit, id }) => {
     const dispatch = useDispatch();
     const TodoSchema = Yup.object().shape({
       name: Yup.string(),
@@ -31,9 +31,11 @@ const TodoForm
 
     const onSubmit = async (data) => {
       try {
-
-        dispatch(CreateTask(data))
-
+        if (isEdit) {
+          dispatch(EditTask({ name: data.name, taskId: id }))
+        } else {
+          dispatch(CreateTask(data))
+        }
       } catch (error) {
         console.error(error);
         reset();
@@ -58,7 +60,7 @@ const TodoForm
               type="submit"
               variant="contained"
             >
-              Create
+              {isEdit ? "Edit" : "Create"}
             </Button>
           </Stack>
         </FormProvider>
