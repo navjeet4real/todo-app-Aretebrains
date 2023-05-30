@@ -9,7 +9,6 @@ const taskController = {
     try {
       const { user } = req;
       let userId = user._id
-      console.log(user, "user")
       const { name } = req.body;
 
       if (!name) {
@@ -42,7 +41,6 @@ const taskController = {
     try {
       const { user } = req;
       let userId = user._id
-      console.log(user, "user")
 
       const tasks = await Task.find({ userId });
 
@@ -55,24 +53,24 @@ const taskController = {
         const userDocPromise = User.findOne(item.userId).select(
           "firstName lastName"
         );
-      
+
         const userDoc = await userDocPromise;
-      
+
         const mergedObject = {
           task_id: item._id,
           name: item.name,
           createdAt: item.createdAt,
           ...userDoc.toObject(),
         };
-        
+
         // exclude any property with null values
         const mergedObjectWithoutNullValues = Object.fromEntries(
           Object.entries(mergedObject).filter(([_, v]) => v !== null)
         );
-      
+
         return mergedObjectWithoutNullValues;
       });
-      
+
       const allTasks = await Promise.all(taskPromises);
 
       return res.status(200).json({
@@ -91,11 +89,10 @@ const taskController = {
     try {
       const { user } = req;
       let userId = user._id
-      console.log(user, "user")
 
-      const { name, taskId } = req.body;
-      console.log(taskId, "jjjjjjjjjjjjjjjjjj")
-      const task = await Task.findById(taskId);
+      const { id } = req.params
+      const { name } = req.body;
+      const task = await Task.findById(id);
 
       if (!task) {
         return res.status(404).json({ msg: 'Task not found.' });
@@ -117,20 +114,19 @@ const taskController = {
   // delete task by task id
   deleteTaskById: async (req, res) => {
     try {
-      const { taskId } = req.params;
+      const { id } = req.params;
 
-      if (!mongoose.Types.ObjectId.isValid(taskId)) {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({ message: 'Invalid task ID.' });
       }
 
-      const task = await Task.findById(taskId);
+      const task = await Task.findById(id);
 
-      console.log(task, "task")
       if (!task) {
         return res.status(404).json({ message: 'Task not found.' });
       }
 
-      await Task.deleteOne({ _id: taskId });
+      await Task.deleteOne({ _id: id });
 
       return res.status(200).json({ message: 'Task deleted successfully.' });
     } catch (err) {

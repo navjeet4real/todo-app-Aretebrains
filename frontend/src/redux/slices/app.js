@@ -57,7 +57,7 @@ export function CreateTask(formValues) {
   return async (dispatch, getState) => {
     await axios
       .post(
-        "/app/create-task",
+        "/app/todos",
         {
           ...formValues,
         },
@@ -68,6 +68,8 @@ export function CreateTask(formValues) {
           },
         }
       ).then(function (response) {
+        dispatch(GetAllTaskOfUser())
+
         dispatch(ShowSnackBar({ severity: "success", message: response.data.message }))
 
       }).catch(function (err) {
@@ -76,11 +78,11 @@ export function CreateTask(formValues) {
       })
   }
 }
-export function GetALlTaskOfUser() {
+export function GetAllTaskOfUser() {
   return async (dispatch, getState) => {
     await axios
       .get(
-        `/app/get-tasks`,
+        `/app/todos`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -88,11 +90,9 @@ export function GetALlTaskOfUser() {
           },
         }
       ).then(function (response) {
-        console.log(response, "ffffffffffffffffffffffffff");
         dispatch(slice.actions.displayTask({
           display: response.data.result
         }))
-        dispatch(ShowSnackBar({ severity: "success", message: response.data.message }))
 
       }).catch(function (err) {
         console.log(err);
@@ -106,8 +106,8 @@ export function EditTask(formValues) {
 
   return async (dispatch, getState) => {
     await axios
-      .post(
-        `/app/edit-task`,
+      .put(
+        `/app/todos/${formValues.taskId}`,
         {
           ...formValues,
         },
@@ -118,8 +118,7 @@ export function EditTask(formValues) {
           },
         }
       ).then(function (response) {
-        console.log(response, "ffffffffffffffffffffffffff");
-
+        dispatch(GetAllTaskOfUser())
         dispatch(ShowSnackBar({ severity: "success", message: response.data.message }))
 
 
@@ -135,17 +134,14 @@ export function DeleteTask(formValues) {
   return async (dispatch, getState) => {
     await axios
       .delete(
-        `/app/delete-task/${formValues}`,
-        {
-          formValues,
-        },
+        `/app/todos/${formValues}`,
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       ).then(function (response) {
-        console.log(response, "ffffffffffffffffffffffffff");
+        dispatch(GetAllTaskOfUser())
 
         dispatch(ShowSnackBar({ severity: "success", message: response.data.message }))
 

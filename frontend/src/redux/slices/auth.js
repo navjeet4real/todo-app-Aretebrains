@@ -45,11 +45,8 @@ export default slice.reducer;
 
 // log in
 export function LoginUser(formValues) {
-  console.log(formValues, "formValues");
   return async (dispatch, getState) => {
-
     dispatch(slice.actions.updateIsLoading({ isLoading: true, error: false }));
-
     await axios
       .post(
         "/auth/login",
@@ -79,7 +76,6 @@ export function LoginUser(formValues) {
         );
       })
       .catch(function (err) {
-        console.log(err);
         dispatch(ShowSnackBar({ severity: "error", message: err.message }))
         dispatch(
           slice.actions.updateIsLoading({ isLoading: false, error: true })
@@ -124,11 +120,11 @@ export function RegisterUser(formValues) {
         console.log(error);
         dispatch(slice.actions.updateIsLoading({ isLoading: false, error: true }));
       })
-    // .finally(() => {
-    //   if (!getState().auth.error) {
-    //     window.location.href = "/auth/verify";
-    //   }
-    // });
+    .finally(() => {
+      if (!getState().auth.error) {
+        window.location.href = "/auth/verify";
+      }
+    });
   };
 }
 

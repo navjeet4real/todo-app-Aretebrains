@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react'
+import { useSelector } from "react-redux";
 import { Box, Typography, Button } from '@mui/material';
 import DeleteModal from './DeleteModal';
 import { getTimeAgo } from '../utils/getTimeAgo';
 import EditModal from './EditModal';
 
 const DisplayTask = () => {
-  const dispatch = useDispatch();
   const { display } = useSelector((state) => state.app);
-  console.log(display, "hhhhhhhhhhhhhhh")
   return (
     <>
       <Box sx={{ maxWidth: 500 }}>

@@ -1,6 +1,5 @@
 import { Backdrop, Box, Button, Fade, Modal, Stack, Typography } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import TodoForm from "./TodoForm";
 
 const style = {
@@ -16,7 +15,6 @@ const style = {
 };
 
 export default function EditModal({ name, open, handleClose, _id }) {
-  let navigate = useNavigate()
   return (
     <>
       <Modal
@@ -39,7 +37,7 @@ export default function EditModal({ name, open, handleClose, _id }) {
                 Edit task {name} from database
               </Typography>
               <Stack>
-                <TodoForm isEdit={true} id={_id} />
+                <TodoForm isEdit={true} id={_id} handleClose={handleClose} />
               </Stack>
             </Stack>
             <Button

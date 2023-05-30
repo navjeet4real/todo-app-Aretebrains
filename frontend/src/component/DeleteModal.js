@@ -1,7 +1,7 @@
 import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { DeleteTask, DeleteUserFunc, FetchUsers } from "../redux/slices/app";
+import { DeleteTask} from "../redux/slices/app";
 
 const style = {
   position: "absolute",
@@ -38,12 +38,12 @@ export default function DeleteModal  ({ name, open, handleClose, _id }) {
               Delete task {name} from database
             </Typography>
             <Button
-            variant="primary"
+            variant="outlined"
               onClick={() => {
                 dispatch(DeleteTask(_id))
                 handleClose()
               }}
-              className="btn2" type="submit"
+              color="error"
             >
               Delete
             </Button>

@@ -3,14 +3,14 @@ import TodoForm from "../component/TodoForm";
 import DisplayTask from "../component/DisplayTask";
 import { Typography, Stack } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { GetALlTaskOfUser } from "../redux/slices/app";
+import { GetAllTaskOfUser } from "../redux/slices/app";
 
 const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(GetALlTaskOfUser())
-  },[])
+    dispatch(GetAllTaskOfUser())
+  }, [])
   return (
     <>
       <Stack spacing={2}>

@@ -5,11 +5,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Alert, Stack, Button } from "@mui/material";
 import { RHFTextField } from "./hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { CreateTask, EditTask } from '../redux/slices/app';
 
 const TodoForm
-  = ({ isEdit, id }) => {
+  = ({ isEdit, id,handleClose }) => {
     const dispatch = useDispatch();
     const TodoSchema = Yup.object().shape({
       name: Yup.string(),
@@ -33,6 +33,8 @@ const TodoForm
       try {
         if (isEdit) {
           dispatch(EditTask({ name: data.name, taskId: id }))
+          handleClose()
+
         } else {
           dispatch(CreateTask(data))
         }
