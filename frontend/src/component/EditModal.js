@@ -3,15 +3,18 @@ import React from "react";
 import TodoForm from "./TodoForm";
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
+  position: 'absolute',
+  top: 'calc( 100px)', 
+  left: 'calc(50% - 200px)', 
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '16px',
+  borderRadius: '4px',
+  backgroundColor: '#fff',
+  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  maxWidth: '400px',
 };
 
 export default function EditModal({ name, open, handleClose, _id }) {
@@ -23,16 +26,14 @@ export default function EditModal({ name, open, handleClose, _id }) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
         }}
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Stack>
+            <Stack spacing={1}>
               <Typography id="transition-modal-title" variant="h6" component="h2">
                 Edit task {name} from database
               </Typography>
@@ -40,6 +41,7 @@ export default function EditModal({ name, open, handleClose, _id }) {
                 <TodoForm isEdit={true} id={_id} handleClose={handleClose} />
               </Stack>
             </Stack>
+            <Stack sx={{ mt: 2, justifyContent: 'flex-end' }}> 
             <Button
               onClick={() => {
                 handleClose()
@@ -48,6 +50,7 @@ export default function EditModal({ name, open, handleClose, _id }) {
             >
               close
             </Button>
+            </Stack>
           </Box>
         </Fade>
       </Modal>

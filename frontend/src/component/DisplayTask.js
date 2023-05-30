@@ -4,19 +4,26 @@ import { Box, Typography, Button } from '@mui/material';
 import DeleteModal from './DeleteModal';
 import { getTimeAgo } from '../utils/getTimeAgo';
 import EditModal from './EditModal';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const DisplayTask = () => {
   const { display } = useSelector((state) => state.app);
   return (
     <>
-      <Box sx={{ maxWidth: 500 }}>
+      <Box sx={{
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        padding: '16px',
+        borderRadius: '4px',
+        backgroundColor: '#fff',
+        marginBottom: '16px',
+        maxWidth: 500
+      }}>
         <Typography variant="h4" component="h1" mb={2}>
           Tasks
         </Typography>
         {display.length > 0 ? (
-          display.map((task) => (
-            <TaskList task={task} />
-          ))
+          display.map((task) => <TaskList key={task.id} task={task} />)
         ) : (
           <Typography variant="body1" component="p">
             No tasks to display.
@@ -46,7 +53,7 @@ const TaskList = ({ task }) => {
   };
   return (
     <>
-      <Box key={task._id} sx={{ border: '1px solid #ccc', p: 2, mb: 2 }}>
+      <Box key={task._id} sx={{ border: '1px solid #ccc', p: 2, mb: 2, borderRadius: 2 }}>
         <Typography variant="h6" component="h2">
           {task.name}
         </Typography>
@@ -60,12 +67,12 @@ const TaskList = ({ task }) => {
           <Button variant="outlined" color="primary" sx={{ mr: 1 }} onClick={() => {
             handleEditOpenDialog();
           }}>
-            Edit
+            <EditIcon sx={{color: "blue"}}  />
           </Button>
           <Button variant="outlined" color="error" onClick={() => {
             handleDeleteOpenDialog();
           }}>
-            Delete
+            <DeleteIcon sx={{color: "red"}} />
           </Button>
         </Box>
       </Box>
