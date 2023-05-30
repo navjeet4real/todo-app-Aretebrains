@@ -2,6 +2,12 @@ const Task = require("../models/task");
 const User = require("../models/user");
 const mongoose = require("mongoose");
 
+
+// object to use as a cache
+const cache = {}
+// cache expiration time in seconds
+const CACHE_EXPIRATION_TIME = 60
+
 const taskController = {
 
   // create a task 
@@ -39,8 +45,23 @@ const taskController = {
   // get all the tasks of a user
   getTasksByUserId: async (req, res) => {
     try {
+      const currentTime = new Date();
+
       const { user } = req;
       let userId = user._id
+
+
+      if (
+        cache["tasks"] &&
+        (new Date() - cache["tasks"].timestamp) / 1000 <
+          CACHE_EXPIRATION_TIME
+      ) {
+        return res.status(200).json({
+          status: "Success",
+          message: "Tasks has been fetched from cache.",
+          result: cache["tasks"].data,
+        });
+      }
 
       const tasks = await Task.find({ userId });
 
@@ -72,6 +93,11 @@ const taskController = {
       });
 
       const allTasks = await Promise.all(taskPromises);
+
+      cache["tasks"] = {
+        data: allTasks,
+        timestamp: currentTime,
+      };
 
       return res.status(200).json({
         status: "Success",
